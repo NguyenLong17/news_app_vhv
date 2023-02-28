@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:new_app/page/home_page.dart';
 import 'package:new_app/page/item/news_item_page.dart';
+import 'package:new_app/page/webview_demo.dart';
+import 'package:new_app/router.dart';
 import 'package:new_app/service/api_service.dart';
 import 'package:new_app/service/news_service.dart';
 
@@ -17,10 +19,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      onGenerateRoute: generateRoute,
       theme: ThemeData(
         // This is the theme of your application.
         //
-        // Try running your application with "flutter run". You'll see the
+        // Try running your application with "flutter run". Yo  u'll see the
         // application has a blue toolbar. Then, without quitting the app, try
         // changing the primarySwatch below to Colors.green and then invoke
         // "hot reload" (press "r" in the console where you ran "flutter run",
@@ -29,7 +33,8 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: const HomePage(),
+
     );
   }
 }

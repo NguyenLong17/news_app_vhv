@@ -1,11 +1,6 @@
-import 'dart:math';
-
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:new_app/model/News.dart';
-import 'package:new_app/model/category.dart';
+import 'package:new_app/model/article.dart';
 import 'package:new_app/service/api_service.dart';
-import 'package:new_app/service/category_service.dart';
 import 'package:new_app/service/news_service.dart';
 
 class CategoryController extends GetxController {
@@ -15,11 +10,33 @@ class CategoryController extends GetxController {
 
   CategoryController._internal();
 
-  Rx<CategoryNews> category = CategoryNews().obs;
+  RxList<Article> listCategory = <Article>[].obs;
+  var pageListCategory = 0;
 
-  Future getNewsByCategory() async {
-    await apiService.getNewsByCategory(category: "sport").then((value) {
-      category = value.obs;
+  void increasePageCategory() {
+    pageListCategory++;
+  }
+
+  Future getNewsByCategory({
+    required String category,
+    bool isClear = false,
+  }) async {
+    increasePageCategory();
+    await apiService
+        .getArticleByCategory(
+            category: category,
+            pageSize: 10,
+            page: isClear ? 0 : pageListCategory)
+        .then((value) {
+      if (isClear) {
+        listCategory.clear();
+      }
+      if (value.isNotEmpty) {
+        listCategory.addAll(value.obs);
+        CategoryController().update();
+      } else if (isClear) {
+        CategoryController().update();
+      }
     }).catchError((e) {
       print('CategoryController.getNewsByCategory"  ${e.toString()}');
     });

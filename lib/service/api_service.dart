@@ -7,7 +7,6 @@ class APIService {
 
   factory APIService() => _service;
 
-
   APIService._internal();
 
   Future request({
@@ -18,27 +17,40 @@ class APIService {
     final uri = Uri.parse(baseUrl + path + apiKey);
     http.Response response;
 
-      switch (method) {
-        case Method.get:
-          response = await http.get(
-            uri,
-          );
-          break;
-        case Method.put:
-          response = await http.put(uri, body: body, encoding: utf8);
-          break;
-        case Method.delete:
-          response = await http.delete(uri, body: body, encoding: utf8);
-          break;
-        default:
-          response = await http.post(uri, body: body, encoding: utf8);
-          break;
-      }
+    switch (method) {
+      case Method.get:
+        response = await http.get(
+          uri,
+        );
+        break;
+      case Method.put:
+        response = await http.put(
+          uri,
+          body: body,
+        );
+        break;
+      case Method.delete:
+        response = await http.delete(
+          uri,
+          body: body,
+        );
+        break;
+      default:
+        response = await http.post(
+          uri,
+          body: body,
+        );
+        break;
+    }
+    print('APIService URI: ${uri}');
+    final json = jsonDecode(response.body);
 
-
-    final responseJson = json.decode(utf8.decode(response.bodyBytes));
-
-    return responseJson;
+    if (json['status'] == "ok") {
+      final data = json['articles'];
+      return data;
+    } else {
+      throw Exception("Có lỗi xảy ra: $json['message']");
+    }
   }
 }
 
