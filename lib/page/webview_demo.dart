@@ -4,9 +4,10 @@ import 'package:new_app/model/article.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewNews extends StatefulWidget {
-  final Rx<Article>? article;
+  final String url;
 
-  const WebViewNews({super.key, this.article});
+  const WebViewNews({super.key, required this.url});
+
 
   @override
   State<WebViewNews> createState() => _WebViewNewsState();
@@ -35,11 +36,11 @@ class _WebViewNewsState extends State<WebViewNews> {
         ),
       )
       ..loadRequest(
-          Uri.parse(widget.article?.value.url ?? "https://www.youtube.com/"));
+          Uri.parse(widget.url));
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.article?.value.title ?? ""),
+        title: Text("Web View"),
       ),
       body: WebViewWidget(
         controller: controller,

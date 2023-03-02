@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:new_app/model/article.dart';
+import 'package:new_app/page/news_detail_page.dart';
 import 'package:new_app/page/webview_demo.dart';
 
 class NewsItemPage extends StatefulWidget {
@@ -29,7 +30,7 @@ class _NewsItemPageState extends State<NewsItemPage> {
           context,
           MaterialPageRoute(
             builder: (BuildContext context) =>
-                WebViewNews(article: widget.article),
+                NewDetailPage(article: widget.article?.value ?? Article()),
           ),
         );
       },
@@ -55,8 +56,8 @@ class _NewsItemPageState extends State<NewsItemPage> {
                             (context, url, downloadProgress) =>
                                 CircularProgressIndicator(
                                     value: downloadProgress.progress),
-                        // errorWidget: (context, url, error) =>
-                        //     Image.asset("assets/images/google.png"),
+                        errorWidget: (context, url, error) =>
+                            Image.asset("assets/images/google.png"),
                       )
                     : Image.asset("assets/images/google.png"),
               ),

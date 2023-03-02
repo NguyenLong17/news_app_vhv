@@ -42,7 +42,6 @@ class APIService {
         );
         break;
     }
-    print('APIService URI: ${uri}');
     final json = jsonDecode(response.body);
 
     if (json['status'] == "ok") {
